@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#f0f9ff">
+<title>語言治療國考複習</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f8faff;
+  --white: #ffffff;
+  --border: #e2eaf6;
+  --shadow: 0 2px 16px rgba(99,130,200,0.10);
+  --shadow-md: 0 4px 28px rgba(99,130,200,0.16);
+
+  /* subject colours */
+  --c1: #6db8f0; --c1l: #e8f4fd; --c1d: #2e7fc4;
+  --c2: #f0856d; --c2l: #fdf0ed; --c2d: #c4502e;
+  --c3: #6dbf9e; --c3l: #eaf7f1; --c3d: #2e9e72;
+  --c4: #b47ff0; --c4l: #f3eeff; --c4d: #7c44cc;
+  --c5: #f0c26d; --c5l: #fdf6e8; --c5d: #b88020;
+  --c6: #f07db4; --c6l: #fdeef6; --c6d: #c43882;
+
+  /* mode colours */
+  --m1: #6db8f0; --m1l: #e8f4fd;
+  --m2: #b47ff0; --m2l: #f3eeff;
+  --m3: #6dbf9e; --m3l: #eaf7f1;
+  --m4: #f0856d; --m4l: #fdf0ed;
+
+  --text: #1e2d4a;
+  --muted: #7a8fac;
+  --radius: 18px;
+  --radius-sm: 12px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.screen { display: none; min-height: 100vh; flex-direction: column; }
+.screen.active { display: flex; }
+
+/* ════════════════════════════════
+   HOME SCREEN
+════════════════════════════════ */
+#home {
+  background: var(--bg);
+  padding: 0;
+}
+
+.home-header {
+  background: var(--white);
+  border-bottom: 1.5px solid var(--border);
+  padding: 20px 24px 16px;
+  position: sticky; top: 0; z-index: 10;
+}
+.home-logo {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+.home-logo span { color: var(--c1d); }
+.home-tagline { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+.home-body { padding: 24px 20px 40px; max-width: 600px; margin: 0 auto; width: 100%; }
+
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.subject-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.subject-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  position: relative;
+  overflow: hidden;
+}
+.subject-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.subject-card:nth-child(1)::before { background: var(--c1); }
+.subject-card:nth-child(2)::before { background: var(--c2); }
+.subject-card:nth-child(3)::before { background: var(--c3); }
+.subject-card:nth-child(4)::before { background: var(--c4); }
+.subject-card:nth-child(5)::before { background: var(--c5); }
+.subject-card:nth-child(6)::before { background: var(--c6); }
+.subject-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.subject-card:active { transform: translateY(0); }
+
+.subject-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.subject-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+.subject-count {
+  font-size: 11px;
+  color: var(--muted);
+}
+.subject-icon { font-size: 1.4rem; margin-bottom: 8px; }
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.stat-box {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 12px;
+  text-align: center;
+}
+.stat-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--c1d);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-lbl { font-size: 11px; color: var(--muted); }
+
+/* ════════════════════════════════
+   MODE SELECT (overlay-style page)
+════════════════════════════════ */
+#modeSelect {
+  background: var(--bg);
+}
+.mode-header {
+  background: var(--white);
+  border-bottom: 1.5px solid var(--border);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: sticky; top: 0; z-index: 10;
+}
+.btn-back {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  color: var(--muted);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.mode-header-title { font-size: 15px; font-weight: 600; flex: 1; }
+.subject-pill {
+  font-size: 11px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+}
+
+.mode-body { padding: 24px 20px 40px; max-width: 600px; margin: 0 auto; width: 100%; }
+
+.topic-select-wrap {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 24px;
+}
+.topic-label { font-size: 12px; color: var(--muted); margin-bottom: 10px; font-weight: 500; }
+.topic-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.topic-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  border: 1.5px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Noto Sans TC', sans-serif;
+}
+.topic-chip.active, .topic-chip:hover {
+  border-color: var(--c1d);
+  background: var(--c1l);
+  color: var(--c1d);
+}
+
+.mode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.mode-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  position: relative;
+  overflow: hidden;
+}
+.mode-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.mode-card:active { transform: scale(0.98); }
+.mode-card-accent {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.mc1 .mode-card-accent { background: var(--m1); }
+.mc2 .mode-card-accent { background: var(--m2); }
+.mc3 .mode-card-accent { background: var(--m3); }
+.mc4 .mode-card-accent { background: var(--m4); }
+.mc1:hover { border-color: var(--m1); }
+.mc2:hover { border-color: var(--m2); }
+.mc3:hover { border-color: var(--m3); }
+.mc4:hover { border-color: var(--m4); }
+
+.mode-card-icon { font-size: 1.6rem; margin-bottom: 10px; }
+.mode-card-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.mode-card-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+.mode-card-badge {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-top: 8px;
+  font-weight: 500;
+}
+.mc1 .mode-card-badge { background: var(--m1l); color: var(--c1d); }
+.mc2 .mode-card-badge { background: var(--m2l); color: var(--c4d); }
+.mc3 .mode-card-badge { background: var(--m3l); color: var(--c3d); }
+.mc4 .mode-card-badge { background: var(--m4l); color: var(--c2d); }
+
+/* ════════════════════════════════
+   QUIZ SCREEN
+════════════════════════════════ */
+#quiz {
+  background: var(--bg);
+}
+.quiz-header {
+  background: var(--white);
+  border-bottom: 1.5px solid var(--border);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: sticky; top: 0; z-index: 10;
+}
+.quiz-counter {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+.progress-bar { height: 4px; background: var(--border); }
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--c1), var(--c3));
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.quiz-body {
+  flex: 1;
+  padding: 20px;
+  max-width: 680px;
+  margin: 0 auto;
+  width: 100%;
+  padding-bottom: 40px;
+}
+
+/* question card */
+.q-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 20px 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+.q-meta-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.q-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+.q-tag.year { background: var(--c1l); color: var(--c1d); }
+.q-tag.topic { background: var(--c3l); color: var(--c3d); }
+
+.q-text {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.02rem;
+  line-height: 1.85;
+  color: var(--text);
+}
+
+/* options */
+.options-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.option-btn {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  width: 100%;
+  font-family: 'Noto Sans TC', sans-serif;
+  box-shadow: 0 1px 4px rgba(99,130,200,0.06);
+}
+.option-btn:hover:not(:disabled) {
+  border-color: var(--c1);
+  background: var(--c1l);
+  transform: translateX(3px);
+}
+.option-letter {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  width: 26px; height: 26px;
+  border-radius: 8px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  color: var(--muted);
+  margin-top: 1px;
+}
+.option-btn.correct { border-color: var(--c3); background: var(--c3l); }
+.option-btn.correct .option-letter { background: var(--c3); border-color: var(--c3); color: #fff; }
+.option-btn.wrong { border-color: var(--c2); background: var(--c2l); }
+.option-btn.wrong .option-letter { background: var(--c2); border-color: var(--c2); color: #fff; }
+.option-btn.dim { opacity: 0.4; }
+.option-btn:disabled { cursor: default; }
+
+/* ─── ANSWER PAGE (basic mode) ─── */
+.answer-page { animation: fadeSlide 0.28s ease; }
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.answer-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+  font-weight: 600;
+  font-size: 15px;
+}
+.answer-badge.correct-badge {
+  background: var(--c3l);
+  border: 1.5px solid var(--c3);
+  color: var(--c3d);
+}
+.answer-badge.wrong-badge {
+  background: var(--c2l);
+  border: 1.5px solid var(--c2);
+  color: var(--c2d);
+}
+.answer-badge-icon { font-size: 1.4rem; }
+
+.expl-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+.expl-card-header {
+  padding: 12px 18px;
+  background: var(--bg);
+  border-bottom: 1.5px solid var(--border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.expl-list { padding: 14px 18px; display: flex; flex-direction: column; gap: 14px; }
+.expl-row { display: flex; gap: 12px; align-items: flex-start; }
+.expl-letter {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.expl-letter.ok { background: var(--c3l); color: var(--c3d); }
+.expl-letter.no { background: var(--c2l); color: var(--c2d); }
+.expl-text { font-size: 13px; color: #3d4f6a; line-height: 1.75; }
+
+.keypoint-card {
+  background: #fffbf0;
+  border: 1.5px solid #f0c26d;
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 12px rgba(240,194,109,0.12);
+}
+.kp-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+.kp-body {}
+.kp-title { font-size: 11px; font-weight: 600; color: var(--c5d); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 5px; }
+.kp-text { font-size: 13px; color: #5a4a20; line-height: 1.75; }
+
+.next-btn-row {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 20px;
+}
+.next-btn {
+  padding: 13px 28px;
+  background: var(--c1d);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 3px 14px rgba(46,127,196,0.3);
+}
+.next-btn:hover { background: #1a6db8; transform: translateY(-1px); box-shadow: 0 5px 18px rgba(46,127,196,0.38); }
+.next-btn:active { transform: translateY(0); }
+
+/* ════════════════════════════════
+   RESULTS SCREEN
+════════════════════════════════ */
+#results { background: var(--bg); }
+.results-header {
+  background: var(--white);
+  border-bottom: 1.5px solid var(--border);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: sticky; top: 0; z-index: 10;
+}
+.results-body { padding: 24px 20px 50px; max-width: 680px; margin: 0 auto; width: 100%; }
+
+.score-hero {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+.score-hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 5px;
+  background: linear-gradient(90deg, var(--c1), var(--c3), var(--c4));
+}
+.score-big {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 3.5rem;
+  font-weight: 600;
+  color: var(--c1d);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.score-sub { font-size: 13px; color: var(--muted); }
+.score-pct {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 20px;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.card-section {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+.card-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-section-title::before {
+  content: '';
+  width: 3px; height: 13px;
+  background: var(--c1);
+  border-radius: 2px;
+}
+
+canvas#pieChart { max-width: 200px; margin: 0 auto 20px; display: block; }
+
+.bar-item { margin-bottom: 12px; }
+.bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+.bar-label .name { color: var(--text); font-weight: 500; }
+.bar-label .pct { color: var(--muted); font-family: 'DM Mono', monospace; }
+.bar-track { height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.9s ease; }
+
+.review-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.review-item:last-child { border-bottom: none; }
+.rdot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 7px; }
+.rdot.ok { background: var(--c3); }
+.rdot.no { background: var(--c2); }
+.review-q-text { font-size: 13px; color: var(--text); flex: 1; line-height: 1.6; }
+.review-ans-line { font-size: 11px; color: var(--muted); margin-top: 3px; font-family: 'DM Mono', monospace; }
+
+.action-row { display: flex; gap: 12px; margin-top: 20px; padding-bottom: 40px; }
+.btn-action-primary {
+  flex: 1; padding: 15px;
+  background: var(--c1d);
+  border: none; border-radius: var(--radius-sm);
+  color: #fff; font-size: 14px; font-weight: 600;
+  cursor: pointer; font-family: 'Noto Sans TC', sans-serif;
+  box-shadow: 0 3px 14px rgba(46,127,196,0.3);
+  transition: all 0.15s;
+}
+.btn-action-primary:hover { background: #1a6db8; }
+.btn-action-sec {
+  flex: 1; padding: 15px;
+  background: var(--white);
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  color: var(--text); font-size: 14px;
+  cursor: pointer; font-family: 'Noto Sans TC', sans-serif;
+  transition: all 0.15s;
+}
+.btn-action-sec:hover { border-color: var(--c1); color: var(--c1d); }
+
+/* drill mode navigation */
+.drill-nav {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+  padding-bottom: 20px;
+}
+
+/* ── ADVANCED MODE ── */
+.adv-fill-section { margin-top: 16px; animation: fadeSlide 0.28s ease; }
+.adv-fill-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; padding: 14px 16px; background: var(--c4l); border-radius: var(--radius-sm); border: 1.5px solid rgba(180,127,240,0.25); }
+.adv-fill-icon { font-size: 1.2rem; flex-shrink: 0; }
+.adv-fill-title { font-size: 13px; font-weight: 600; color: var(--c4d); }
+.adv-fill-subtitle { font-size: 11px; color: var(--c4d); opacity: 0.7; margin-top: 2px; }
+.adv-fill-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+.adv-fill-card-head {
+  padding: 11px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.adv-fill-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.adv-fill-badge.wrong-lbl { background: var(--c2l); color: var(--c2d); }
+.adv-fill-badge.correct-lbl { background: var(--c3l); color: var(--c3d); }
+.adv-fill-head-text { font-size: 12px; color: var(--text); line-height: 1.6; flex: 1; }
+.adv-fill-prompt-row { padding: 10px 16px 4px; font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: 0.04em; }
+.adv-fill-textarea {
+  width: 100%;
+  padding: 8px 16px 14px;
+  font-size: 13px;
+  font-family: 'Noto Sans TC', sans-serif;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  min-height: 85px;
+  line-height: 1.75;
+  display: block;
+}
+.adv-fill-textarea::placeholder { color: #b8c8d8; }
+.adv-submit-row { display: flex; justify-content: flex-end; margin-top: 8px; margin-bottom: 16px; }
+.adv-submit-btn {
+  padding: 12px 26px;
+  background: var(--c4d);
+  border: none; border-radius: var(--radius-sm);
+  color: #fff; font-size: 13px; font-weight: 600;
+  cursor: pointer; font-family: 'Noto Sans TC', sans-serif;
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 3px 12px rgba(124,68,204,0.28);
+  transition: all 0.15s;
+}
+.adv-submit-btn:hover { background: #6a36b8; transform: translateY(-1px); }
+.adv-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* AI feedback */
+.adv-feedback-section { margin-top: 4px; animation: fadeSlide 0.3s ease; }
+.adv-feedback-label {
+  font-size: 11px; font-weight: 600; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+}
+.adv-feedback-label::before { content: ''; width: 3px; height: 13px; background: var(--c4); border-radius: 2px; }
+.adv-compare-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+.adv-compare-head {
+  padding: 11px 16px;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.adv-compare-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.adv-compare-col {
+  padding: 14px 14px;
+  font-size: 12.5px;
+  line-height: 1.8;
+}
+.adv-compare-col:first-child { border-right: 1px solid var(--border); color: #3d4f6a; }
+.adv-compare-col:last-child { color: #2a5a3a; background: rgba(109,191,158,0.05); }
+.adv-col-lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.adv-verdict {
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+  font-size: 12.5px;
+  display: flex; align-items: flex-start; gap: 8px;
+  line-height: 1.65;
+}
+.adv-verdict-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+.adv-loading { text-align: center; padding: 28px 20px; color: var(--muted); font-size: 13px; }
+.adv-spinner {
+  width: 26px; height: 26px;
+  border: 2px solid var(--border); border-top-color: var(--c4);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 10px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+/* ── MY NOTES ── */
+.note-card {
+  background: #f0fdf4;
+  border: 1.5px solid #6dbf9e;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 12px rgba(109,191,158,0.12);
+  animation: fadeSlide 0.3s ease;
+}
+.note-card-header {
+  padding: 11px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(109,191,158,0.3);
+  background: rgba(109,191,158,0.08);
+}
+.note-card-title { font-size: 12px; font-weight: 600; color: var(--c3d); display: flex; align-items: center; gap: 6px; }
+.note-sync-status { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; }
+.note-sync-status.syncing { color: var(--c5d); }
+.note-sync-status.synced { color: var(--c3d); }
+.note-sync-status.error { color: var(--c2d); }
+.note-textarea {
+  width: 100%; padding: 14px 16px; font-size: 13px;
+  font-family: 'Noto Sans TC', sans-serif; color: var(--text);
+  background: transparent; border: none; outline: none;
+  resize: none; min-height: 100px; line-height: 1.75; display: block;
+}
+.note-textarea::placeholder { color: #b0c8b0; }
+.note-footer { padding: 10px 16px; display: flex; justify-content: flex-end; border-top: 1px solid rgba(109,191,158,0.2); gap: 8px; }
+.note-save-btn {
+  padding: 8px 20px; background: var(--c3d); border: none; border-radius: 8px;
+  color: #fff; font-size: 12px; font-weight: 600; cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif; transition: all 0.15s;
+}
+.note-save-btn:hover { background: #228a5e; }
+.note-save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.setup-overlay {
+  position: fixed; inset: 0; background: rgba(30,45,74,0.55);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000; padding: 20px;
+}
+.setup-modal {
+  background: var(--white); border-radius: var(--radius);
+  padding: 28px 24px; max-width: 400px; width: 100%;
+  box-shadow: var(--shadow-md);
+}
+.setup-title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.setup-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+.setup-input {
+  width: 100%; padding: 12px 14px; border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); font-size: 13px;
+  font-family: 'DM Mono', monospace; color: var(--text);
+  outline: none; margin-bottom: 14px; background: var(--bg);
+}
+.setup-input:focus { border-color: var(--c3); }
+.setup-btn {
+  width: 100%; padding: 13px; background: var(--c3d); border: none;
+  border-radius: var(--radius-sm); color: #fff; font-size: 14px;
+  font-weight: 600; cursor: pointer; font-family: 'Noto Sans TC', sans-serif; margin-bottom: 10px;
+}
+.setup-skip { width: 100%; padding: 10px; background: none; border: none; color: var(--muted); font-size: 12px; cursor: pointer; font-family: 'Noto Sans TC', sans-serif; }
+.result-note-block {
+  margin-top: 8px; padding: 10px 14px;
+  background: rgba(109,191,158,0.08); border-left: 3px solid var(--c3);
+  border-radius: 0 8px 8px 0; font-size: 12px; color: #2d5a3d; line-height: 1.7;
+}
+.result-note-label { font-size: 10px; font-weight: 600; color: var(--c3d); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+
+</style>
+</head>
+<body>
+
+<!-- ════ HOME ════ -->
+<div id="home" class="screen active">
+  <div class="home-header" style="display:flex;align-items:center;justify-content:space-between;">
+    <div>
+      <div class="home-logo">語言治療<span>國考</span>複習</div>
+      <div class="home-tagline">Speech-Language Pathology · 國家考試題庫</div>
+    </div>
+    <button onclick="openSetup()" style="background:none;border:1.5px solid var(--border);border-radius:8px;padding:6px 12px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'Noto Sans TC',sans-serif;flex-shrink:0;">⚙️ 筆記設定</button>
+  </div>
+  <div class="home-body">
+    <div class="section-label">選擇科目</div>
+    <div class="subject-grid">
+      <div class="subject-card" onclick="openSubject(0)">
+        <div class="subject-icon">🧬</div>
+        <div class="subject-num">科目一</div>
+        <div class="subject-name">基礎言語科學</div>
+        <div class="subject-count">解剖生理・聲學與知覺</div>
+      </div>
+      <div class="subject-card" onclick="openSubject(1)">
+        <div class="subject-icon">🧠</div>
+        <div class="subject-num">科目二</div>
+        <div class="subject-name">神經性溝通障礙學</div>
+        <div class="subject-count">失語症・運動言語障礙</div>
+      </div>
+      <div class="subject-card" onclick="openSubject(2)">
+        <div class="subject-icon">👦</div>
+        <div class="subject-num">科目三</div>
+        <div class="subject-name">兒童語言障礙學</div>
+        <div class="subject-count">36題 · 106–114年</div>
+      </div>
+      <div class="subject-card" onclick="openSubject(3)">
+        <div class="subject-icon">🎙️</div>
+        <div class="subject-num">科目四</div>
+        <div class="subject-name">嗓音與吞嚥障礙學</div>
+        <div class="subject-count">45題 · 106–114年</div>
+      </div>
+      <div class="subject-card" onclick="openSubject(4)">
+        <div class="subject-icon">💬</div>
+        <div class="subject-num">科目五</div>
+        <div class="subject-name">構音與語暢障礙學</div>
+        <div class="subject-count">構音・口吃</div>
+      </div>
+      <div class="subject-card" onclick="openSubject(5)">
+        <div class="subject-icon">🦻</div>
+        <div class="subject-num">科目六</div>
+        <div class="subject-name">溝通障礙總論</div>
+        <div class="subject-count">聽力學・AAC・倫理</div>
+      </div>
+    </div>
+    <div class="section-label">學習紀錄</div>
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-val" id="statDone">0</div>
+        <div class="stat-lbl">已作答</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="statCorrect">0</div>
+        <div class="stat-lbl">答對</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="statBest">—</div>
+        <div class="stat-lbl">最高分</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODE SELECT ════ -->
+<div id="modeSelect" class="screen">
+  <div class="mode-header">
+    <button class="btn-back" onclick="goHome()">←</button>
+    <div class="mode-header-title" id="modeSubjectTitle">科目四</div>
+    <div class="subject-pill" id="modeSubjectPill" style="background:var(--c4l);color:var(--c4d);">嗓音與吞嚥</div>
+  </div>
+  <div class="mode-body">
+    <div class="section-label" style="margin-bottom:14px">選擇主題</div>
+    <div class="topic-select-wrap">
+      <div class="topic-label">📂 出題範圍</div>
+      <div class="topic-chips" id="topicChips"></div>
+    </div>
+    <div class="section-label" style="margin-bottom:14px">選擇練習模式</div>
+    <div class="mode-grid">
+      <div class="mode-card mc1" onclick="startQuiz('basic')">
+        <div class="mode-card-accent"></div>
+        <div class="mode-card-icon">📖</div>
+        <div class="mode-card-name">基礎模式</div>
+        <div class="mode-card-desc">作答後立即顯示每個選項的詳細解析與核心考點</div>
+        <div class="mode-card-badge">適合預習</div>
+      </div>
+      <div class="mode-card mc2" onclick="startQuiz('advanced')">
+        <div class="mode-card-accent"></div>
+        <div class="mode-card-icon">🃏</div>
+        <div class="mode-card-name">進階模式</div>
+        <div class="mode-card-desc">作答後填寫錯誤原因，由 AI 核對並與標準解析並排對照</div>
+        <div class="mode-card-badge">深度理解・AI核對</div>
+      </div>
+      <div class="mode-card mc3" onclick="startQuiz('drill')">
+        <div class="mode-card-accent"></div>
+        <div class="mode-card-icon">⚡</div>
+        <div class="mode-card-name">刷題模式</div>
+        <div class="mode-card-desc">連續作答，全部完成後一次看結果與弱點分析</div>
+        <div class="mode-card-badge">考前衝刺</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════ QUIZ ════ -->
+<div id="quiz" class="screen">
+  <div class="quiz-header">
+    <button class="btn-back" onclick="goModeSelect()">←</button>
+    <div class="mode-header-title" id="quizModeLabel">基礎模式</div>
+    <div class="quiz-counter" id="quizCounter">1 / 31</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="quiz-body" id="quizBody"></div>
+</div>
+
+<!-- ════ RESULTS ════ -->
+<div id="results" class="screen">
+  <div class="results-header">
+    <button class="btn-back" onclick="goHome()">←</button>
+    <div class="mode-header-title">作答結果</div>
+  </div>
+  <div class="results-body">
+    <div class="score-hero">
+      <div class="score-big" id="scoreNum">0/0</div>
+      <div class="score-sub">答對題數</div>
+      <div class="score-pct" id="scorePct"></div>
+    </div>
+    <div class="card-section">
+      <div class="card-section-title">各主題得分分析</div>
+      <canvas id="pieChart" width="200" height="200"></canvas>
+      <div id="topicBars"></div>
+    </div>
+    <div class="card-section" id="wrongSection">
+      <div class="card-section-title">需要複習的題目</div>
+      <div id="reviewList"></div>
+    </div>
+    <div class="action-row">
+      <button class="btn-action-primary" onclick="restartSame()">再練一次</button>
+      <button class="btn-action-sec" onclick="goHome()">回首頁</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SETUP MODAL ════ -->
+<div id="setupOverlay" class="setup-overlay" style="display:none;">
+  <div class="setup-modal">
+    <div class="setup-title">📒 連接 Notion 筆記</div>
+    <div class="setup-sub">連接後，你在每題的筆記會自動同步到你的 Notion，任何裝置都能看到。<br><br>請輸入你的 Notion Integration Token（格式：<span style="font-family:monospace">ntn_...</span>）</div>
+    <input type="password" id="tokenInput" class="setup-input" placeholder="ntn_xxxxxxxxxxxxxxxx">
+    <button class="setup-btn" onclick="saveToken()">儲存並連接 Notion</button>
+    <button class="setup-skip" onclick="closeSetup()">暫時跳過，不使用同步</button>
+    <div id="setupMsg" style="font-size:12px;text-align:center;margin-top:8px;min-height:18px;"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+/* ══════════════════════════════════════
+   DATA
+══════════════════════════════════════ */
+const SUBJECTS = [
+  { id:0, name:'基礎言語科學', short:'基礎言語科學', color:'c1', topics:['全部題目'], questions:[] },
+  { id:1, name:'神經性溝通障礙學', short:'神經性溝通障礙', color:'c2', topics:['全部題目'], questions:[] },
+  { id:2, name:'兒童語言障礙學', short:'兒童語言障礙', color:'c3',
+    topics:['全部題目','語言發展里程碑'],
+    questions:[
+      { id:1, year:'106', topic:'語言發展里程碑', q:'對於嬰幼兒口語發展的里程碑，下列敘述何者錯誤？', opts:['臺灣習華語的幼兒，大約在18個月大時可以發展出50個詞彙','習華語的幼兒與習英語的幼兒相同，最初的50個不同詞彙中，都是以名詞占最多','幼兒在學習詞彙時，理解性的詞彙量比表達性詞彙量多，甚至可以多達5倍','幼兒只要出現100個左右的詞彙，即會進入詞彙爆炸期'], ans:3, expls:['✅ Paul & Norbury指出18個月表達性詞彙平均約50–100個，本選項50個落在Paul平均下緣，視為正確。','✅ 跨語言研究一致支持名詞優先性（noun advantage），習華語與習英語幼兒的最初50個詞彙均以名詞占最多。','✅ 理解性詞彙（receptive vocabulary）遠多於表達性詞彙（expressive vocabulary），差距可達5倍，反映「理解先於表達」原則。','❌（本題答案）詞彙爆炸期（vocabulary spurt）的觸發點是表達性詞彙達到約50個詞，而非100個。達到此門檻後，詞彙量快速增加，雙詞組合隨之出現。'], keypoint:'詞彙爆炸期觸發詞彙量：50個詞（非100個）；24個月臨床最低基準亦為至少50個詞。本題、第02題、第22題三題均指向同一知識點。⭐⭐⭐' },
+      { id:2, year:'106', topic:'語言發展里程碑', q:'一般而言，正常發展兒童要有多少的表達性詞彙才會開始產生雙詞？', opts:['30個','50個','100個','150個'], ans:1, expls:['❌ 30個詞彙量尚不足以觸發雙詞期，此時仍在單詞期積累階段。','✅ 表達性詞彙達約50個時，詞彙爆炸期（vocabulary spurt）啟動，雙詞組合隨之出現，此為跨語言一致的發展現象。（Paul & Norbury；錡寶香）','❌ 100個是常見干擾選項，為第01題（D）中的錯誤描述，切勿混淆。','❌ 150個詞彙量遠超過雙詞期啟動所需，此時兒童早已進入多詞句階段。'], keypoint:'雙詞期觸發＝50個詞。第01題、本題、第22題三題連動，均指向同一核心知識，考法各異但答案一致。⭐⭐⭐' },
+      { id:3, year:'106', topic:'語言發展里程碑', q:'18個月大幼兒平均每分鐘會產生2次溝通行動（communicative acts），到24個月大時，幼兒平均每分鐘的溝通行動則至少應增加到幾次？', opts:['3–4次','5–7次','8–9次','10次'], ans:1, expls:['❌ 3–4次僅為小幅增加，不符合24個月的發展常模，增幅不足。','✅ 根據Paul & Norbury，24個月幼兒平均每分鐘溝通行動應達5–7次，相較18個月的2次有顯著成長。','❌ 8–9次超過24個月的發展常模，過高。','❌ 每分鐘10次亦過高，不符合此年齡的發展數據。'], keypoint:'溝通行動頻率：18個月＝2次/分鐘；24個月＝5–7次/分鐘（Paul & Norbury）。24個月溝通頻率明顯低於5次/分鐘為發展警訊。⭐⭐' },
+      { id:4, year:'106', topic:'語言發展里程碑', q:'Elliott-Templeton等人（1992）建議，父母在嬰兒多大時就可以開始對他們閱讀繪本？', opts:['6個月大','10個月大','12個月大','18個月大'], ans:0, expls:['✅ Elliott-Templeton等人（1992）建議從嬰兒6個月起即可開始親子共讀，此時嬰兒已能維持短暫注意力，共讀有助於讀寫萌發（emergent literacy）的奠基。','❌ 10個月為干擾選項，該研究明確建議6個月而非10個月。','❌ 12個月已是Locutionary Stage起始，親子共讀應更早開始。','❌ 18個月已是單詞期後段，遠遠晚於建議的起始時間。'], keypoint:'Elliott-Templeton（1992）＝6個月開始親子共讀，為直接記憶考點。與讀寫萌發（emergent literacy）脈絡連動。⭐' },
+      { id:5, year:'106', topic:'語言發展里程碑', q:'根據James（1990）提出的疑問詞習得順序，下列四個疑問詞由最早到最晚的習得順序為何？①what ②where ③when ④why', opts:['①→②→③→④','①→②→④→③','①→③→②→④','②→①→④→③'], ans:1, expls:['❌ what→where→when→why將when排在why之前，但when涉及抽象時間概念，習得晚於why。','✅ 根據James（1990），英語疑問詞習得順序為what→where→why→when（即①→②→④→③）。從具體可感知到抽象概念，反映認知由具體到抽象的發展路徑。','❌ 將when排在where之前，不符合習得順序。','❌ 以where為首，不符合what最早習得的研究結論。'], keypoint:'James（1990）英語疑問詞完整順序：what→where→why→when。why早於when（時間概念最抽象，習得最晚）。與第13題互補記憶。⭐⭐⭐' },
+      { id:6, year:'106', topic:'語言發展里程碑', q:'嬰兒躺在床上持續發出/mɑmɑmɑ/的喃語聲，媽媽走到床邊說：「你是不是在叫媽媽啊？」根據Bates（1976）的溝通意圖發展階段，該嬰兒最可能處於哪個階段？', opts:['Illocutionary stage','Perlocutionary stage','Locutionary stage','Circulation stage'], ans:1, expls:['❌ Illocutionary stage（7–12個月）特徵是嬰兒有意圖地以手勢、目光與發聲影響他人。本題嬰兒無主動意圖，是媽媽主動詮釋，故不符合。','✅ Perlocutionary stage（0–6個月）核心特徵：嬰兒行為尚無主動溝通意圖，但影響照顧者，由照顧者賦予溝通意義加以詮釋。媽媽主動詮釋/mɑmɑmɑ/正是此機制。','❌ Locutionary stage（12–18個月）嬰兒已有慣例性詞彙，與題目情境不符。','❌ Circulation stage非Bates理論的正式階段名稱，為干擾選項。'], keypoint:'Bates三期鑑別：Perlocutionary＝無意圖，照顧者詮釋；Illocutionary＝有意圖，非語言手段；Locutionary＝使用慣例性詞彙。核心陷阱：詮釋者是媽媽而非嬰兒主動意圖。⭐⭐' },
+      { id:7, year:'106', topic:'語言發展里程碑', q:'根據Boehm（1989），下列的空間介係詞何者要到6歲以後兒童才能理解？', opts:['above','below','in front of','between'], ans:0, expls:['✅ above（在…上方）為抽象垂直空間詞，認知要求較高。根據Boehm（1989），above需到6歲以後才能穩定理解，為本題四個選項中習得最晚者。','❌ below（在…下方）雖同為垂直空間詞，但兒童通常在5–6歲前即能理解，習得早於above。','❌ in front of（在…前面）以身體為參照的近端空間詞，習得較早，多在3–4歲前出現。','❌ between（在…之間）認知難度雖不低，但仍早於above，通常在5歲前可習得。'], keypoint:'Boehm（1989）空間詞習得：above是最晚習得的空間介係詞（6歲後）。習得由易到難：近端具體→身體參照→抽象垂直相對（above難度最高）。⭐' },
+      { id:8, year:'107', topic:'語言發展里程碑', q:'下列有關兒童語言發展的敘述，何者錯誤？', opts:['習華語幼兒的四聲發展順序為第一聲、第四聲、第二聲、第三聲','以行為學派理論解釋兒童音韻發展，可以顧及嬰幼兒生理成熟與認知能力對音韻組織與表達的改變','習華語幼兒聲母發展以雙唇音或塞音較早發展','言語知覺對兒童詞彙學習非常重要，因為兒童必須由聽到的一連串說話聲音中斷詞、區辨不同語音，才能建立正確語彙表徵'], ans:1, expls:['✅ 華語四聲習得順序：第一聲（陰平）→第四聲（去聲）→第二聲（陽平）→第三聲（上聲）。第三聲因降升複雜聲調輪廓，習得最晚。','❌（本題答案）行為學派（behaviorism）以S-R聯結、模仿、增強解釋語言習得，強調外在環境因素，根本無法解釋兒童內在的生理成熟歷程與認知組織能力對音韻發展的影響。能解釋此類內在歷程的應為成熟論或認知語言學派。','✅ 習華語幼兒聲母發展以雙唇音或塞音較早習得，與習英語幼兒相同，反映構音部位靠前、方式簡單者先習得的跨語言規律。','✅ 言語知覺（speech perception）是詞彙習得的重要基礎，兒童需從連續語流中完成斷詞並區辨語音，才能建立正確的心理詞彙表徵。'], keypoint:'行為學派的根本限制：無法解釋生理成熟、創造性語法生成、普遍語法等內在機制。華語四聲習得順序：1→4→2→3。⭐' },
+      { id:9, year:'107', topic:'語言發展里程碑', q:'下列有關兒童語意和音韻發展，何者錯誤？', opts:['幼兒音韻都是先發展兩個最大對照語音（maximally contrasting sounds）','嬰幼兒最先發展出來的50個詞彙以名詞所占比例最高','嬰幼兒最先發展出來的50個詞彙以主詞／代名詞所占比例最少','兒童從3、4歲開始會使用「像」、「好像」的隱喻（metaphors）句子'], ans:3, expls:['✅ 音韻習得初期，幼兒先習得對比最大的語音，再逐漸習得對比較小的語音，反映感知與產出能力由粗到細的發展路徑。','✅ 跨語言研究一致支持名詞優先性（noun bias），最初50個詞彙以名詞占最多，習華語與習英語幼兒皆然。','✅ 代名詞（pronoun）在最初詞彙中比例最低，因代名詞具有情境依賴性，認知難度較高，習得較晚。','❌（本題答案）隱喻（metaphors）屬象徵性語言（figurative language），其使用能力發展遠晚於3–4歲。象徵性語言通常在學齡期（約6–7歲後）才逐漸萌發，3–4歲使用「像」、「好像」多屬字面比較，並非真正的隱喻運用。'], keypoint:'象徵性語言（figurative language）包含隱喻、成語等，均為學齡期語言發展考點，發展時程明顯晚於字面語義（學齡期，非3–4歲）。⭐' },
+      { id:10, year:'107', topic:'語言發展里程碑', q:'下列關於語言發展的敘述，何者錯誤？', opts:['哭（crying）→咕咕（cooing）→牙牙學語（babbling）→單詞（one-word）→雙詞（two-word）→多詞句（multiple-word utterances）','習英語幼兒音韻歷程不常出現同化歷程（assimilation process）','習英語幼兒較早發展的聲母為雙唇、塞音、鼻音','習華語幼兒音韻發展順序：雙唇音或塞音→塞擦音→擦音'], ans:1, expls:['✅ 此為語言發展的標準時序，與Bates三期及Paul & Norbury框架一致。','❌（本題答案）同化歷程（assimilation process）在習英語幼兒的音韻發展中相當常見，並非罕見。例如「doggie」發成「goggie」（後置音同化）。選項說「不常出現」為錯誤描述。','✅ 習英語幼兒最早習得的聲母以雙唇音、塞音、鼻音為主，為跨語言音韻習得的共同規律。','✅ 習華語幼兒聲母發展順序為雙唇音或塞音→塞擦音→擦音，與許洪坤（1987）研究一致。'], keypoint:'同化歷程（assimilation）是幼兒期最常見的音韻歷程之一，並非罕見，考試常以「不常出現」作為錯誤陷阱。⭐' },
+      { id:11, year:'107', topic:'語言發展里程碑', q:'一般而言，嬰幼兒在多大時會出現第一個有意義的表達性詞彙？', opts:['3個月','5個月','11–12個月','1個月'], ans:2, expls:['❌ 3個月為咕咕聲期（cooing stage），尚無任何有意義詞彙。','❌ 5個月進入語音探索期（vocal play），仍屬前語言期，尚無有意義詞彙。','✅ 根據Paul & Norbury，第一個有意義的表達性詞彙通常出現於11–12個月，此時嬰兒進入Bates的Locutionary Stage，開始以慣例性詞彙作為主要溝通媒介。','❌ 1個月為反射性發聲期，僅有哭聲等反射性發聲，完全不具詞彙能力。'], keypoint:'第一個有意義詞彙＝11–12個月（Locutionary Stage起始標誌）。臨床警訊：18個月前仍無任何口語詞彙→需轉介評估。⭐⭐' },
+      { id:12, year:'107', topic:'語言發展里程碑', q:'MLU = 2.0–2.5屬於Brown語法第幾階段？', opts:['第一階段','第二階段','第三階段','第四階段'], ans:1, expls:['❌ Stage I的MLU範圍為1.0–2.0，對應約12–26個月，主要特徵為電報式語句與雙詞組合。','✅ Stage II的MLU範圍為2.0–2.5，對應約27–30個月，主要特徵為語法構詞（grammatical morphemes）開始出現。','❌ Stage III的MLU範圍為2.5–3.0，對應約31–34個月。','❌ Stage IV的MLU範圍為3.0–3.75，對應約35–40個月，出現嵌入句。'], keypoint:'Brown語法五階段：Stage I（MLU 1.0–2.0）；Stage II（2.0–2.5）；Stage III（2.5–3.0）；Stage IV（3.0–3.75）；Stage V（3.75–4.5）。語言樣本分析（LSA）核心工具。⭐⭐' },
+      { id:13, year:'107', topic:'語言發展里程碑', q:'兒童疑問句的發展順序，下列何者正確？', opts:['what、where、who是最早發展，when、how、why較晚出現','what、when、who是最早發展，where、how、why較晚出現','what、why、who是最早發展，where、when、how較晚出現','what、how、who是最早發展，where、when、why較晚出現'], ans:0, expls:['✅ 根據James 1990及Paul & Norbury，wh-問句習得分兩組——早期：what、where、who（指涉具體可感知的物品、空間、人物）；晚期：when、how、why（涉及抽象的時間、方式、因果概念）。','❌ when涉及抽象時間概念，屬於晚期習得的疑問詞，不應列入最早發展組。','❌ why涉及因果推理，屬晚期習得，不應列入最早發展組。','❌ how涉及方式與程序，亦屬晚期習得，不應列入最早發展組。'], keypoint:'wh-問句分組：早期（具體）＝what、where、who；晚期（抽象）＝when、how、why。與第05題（James 1990完整順序）連動，均指向「具體先於抽象」。⭐⭐⭐' },
+      { id:14, year:'107', topic:'語言發展里程碑', q:'許洪坤（1987）研究發現，習華語兒童發展韻母及聲母順序，下列何者正確？', opts:['韻母：單韻母→雙韻母→聲隨韻母；聲母：塞音→塞擦音→擦音→捲舌音','韻母：單韻母→聲隨韻母→雙韻母；聲母：塞音→擦音→塞擦音→捲舌音','韻母：單韻母→雙韻母→聲隨韻母；聲母：擦音→塞音→塞擦音→捲舌音','韻母：單韻母→聲隨韻母→雙韻母；聲母：塞音→塞擦音→擦音→捲舌音'], ans:0, expls:['✅ 許洪坤（1987）：韻母：單韻母→雙韻母→聲隨韻母；聲母：塞音→塞擦音→擦音→捲舌音。韻母由簡到複；聲母由構音最簡單的塞音，到最複雜的捲舌音。','❌ 韻母順序錯誤（聲隨韻母排在雙韻母之前）；聲母順序亦錯誤（擦音早於塞擦音）。','❌ 韻母順序正確，但聲母以擦音為首，擦音構音難度高，不應最早習得。','❌ 韻母順序錯誤（聲隨韻母排在雙韻母之前）；聲母順序雖正確，但韻母錯誤，整體為錯。'], keypoint:'許洪坤（1987）為台灣華語音韻發展核心文獻。記憶口訣——韻母：「單雙聲」；聲母：「塞、塞擦、擦、捲」。⭐⭐' },
+      { id:15, year:'108', topic:'語言發展里程碑', q:'5歲兒童跟媽媽說：「小明說他想跟我們去動物園。」從上述語言樣本中，可觀察到兒童哪些語言相關能力的萌發？①情境語言（contextualized）②象徵性語言（figurative language）③心智理論（theory of mind）④去情境語言（decontextualized）⑤後設語言（metalinguistic）', opts:['僅①②','①②⑤','③④⑤','僅③④'], ans:3, expls:['❌ ①情境語言：本句談論不在場的人（小明）與未發生的事件，不依賴當下情境，①不符合。②象徵性語言：本句為直白陳述，無隱喻等非字面語言特徵，②不符合。','❌ ①②均不符合，⑤後設語言指對語言本身的反思（如辨識音節、解釋語法），本句亦無此特徵。','❌ ⑤後設語言不符合本句特徵。','✅ ③心智理論（Theory of Mind）：兒童能理解並轉述「小明」的想法與意圖，約4歲出現；④去情境語言（decontextualized language）：談論不在當下時空情境的人與事，為5歲兒童的重要語言里程碑。'], keypoint:'去情境語言（decontextualized）vs.情境語言（contextualized）：情境語言依賴當下場景；去情境語言脫離當下。心智理論（ToM）約4歲出現，為ASD鑑別診斷的核心能力。⭐⭐' },
+      { id:16, year:'108', topic:'語言發展里程碑', q:'兒童從單詞語（single-word）發展至多詞語（early multiword）的初期階段，下列何者是依循詞序規則所建立的？', opts:['語詞組合（word combination）','慣用語（formula）','軸心基模（pivot schemes）','項目本位結構（item-based construction）'], ans:3, expls:['❌ 語詞組合（word combination）描述的是雙詞期的產出現象本身，並非說明組合是依循什麼規則建立。','❌ 慣用語（formula）是兒童將整個語句作為不可分割的固定單位整體記憶習得，是繞過詞序規則分析的整體記憶策略。','❌ 軸心基模（pivot schemes，Braine 1963）以固定軸心詞搭配其他詞彙，但此理論已被後續研究認為過度簡化，且無法充分解釋詞序規則的建立機制。','✅ 項目本位結構（item-based construction，Tomasello 2003）：兒童以具體詞彙項目為基礎，從個別詞彙的詞序位置與搭配模式中，逐漸歸納建立更抽象的詞序規則。此為使用本位語言習得理論（usage-based theory）的核心概念。'], keypoint:'項目本位結構（item-based construction，Tomasello 2003）：從具體項目建立詞序規則。formula＝整體記憶，繞過詞序分析；item-based construction＝從具體項目建立規則。⭐' },
+      { id:17, year:'109', topic:'語言發展里程碑', q:'Applebee（1978）提出兒童敘事能力之發展順序，下列何者正確？①簡單敘事（primitive narratives）②話語累積（heaps）③無焦點連結期（unfocused chains）④有焦點連結期（focused chains）⑤真正的故事（true narrative）', opts:['①②③④⑤','②①③④⑤','③④①②⑤','②③①⑤④'], ans:1, expls:['❌ 以primitive narratives為首排在heaps之前，但heaps是最早出現的階段（約2歲），primitive narratives約在3–4歲，順序錯誤。','✅ 正確順序：heaps→primitive narratives→unfocused chains→focused chains→true narratives，對應②①③④⑤，與Applebee（1978）敘事發展吻合。','❌ 以unfocused chains為首，順序明顯錯誤。','❌ true narrative出現在focused chains之前，且整體排列錯誤。'], keypoint:'Applebee敘事發展：「堆→原→無→有→真」（heaps→primitive→unfocused→focused→true narratives）。本題僅考五階段（省略sequences）。109、111、114年均考。⭐⭐⭐' },
+      { id:18, year:'109', topic:'語言發展里程碑', q:'針對早期語言發展徵兆，需要進行幼兒語言發展遲緩的評估和介入時機，下列何者錯誤？', opts:['12個月前沒有出現喃語（babble）','6個月前沒有溝通手勢，像是指認、揮手等等','24個月前的表達性詞彙少於50個單詞或是沒有雙詞連結（word combination）','18個月前沒有任何口說的詞彙'], ans:1, expls:['✅ 12個月前未出現喃語確實是需要評估的發展警訊。Canonical babbling通常於7–9個月出現，缺乏喃語與後續詞彙習得遲緩高度相關。','❌（本題答案）意圖性溝通手勢（如指認、揮手）的正常發展出現時間為9–12個月（Illocutionary Stage），而非6個月。6個月時幼兒仍處於Perlocutionary Stage，尚無主動意圖性手勢，因此「6個月前沒有溝通手勢」並不構成發展警訊。','✅ 24個月前表達性詞彙少於50個或無雙詞組合，確實是需要評估介入的臨床警訊。','✅ 18個月前無任何口語詞彙是明確的轉介評估指標，符合Paul & Norbury與ASHA的臨床建議。'], keypoint:'轉介時機精確月齡：無喃語→12個月前；無意圖性手勢→12個月前（⚠️非6個月）；無口語詞彙→18個月前；詞彙未達50個或無雙詞→24個月前。⭐⭐⭐' },
+      { id:19, year:'110', topic:'語言發展里程碑', q:'學步兒（toddler）通常先發展出哪種手勢來表達原形陳述（proto-declarative）的溝通能力？', opts:['要求（requesting）','給予（giving）','展示（showing）','指物（pointing）'], ans:2, expls:['❌ 要求（requesting）對應的是proto-imperative（原形祈使），目的是要求他人提供物品或行動，而非proto-declarative的分享注意力功能。','❌ 給予是溝通手勢，但並非proto-declarative最典型或最早出現的手勢形式。','✅ 展示（showing）是學步兒最先發展出來的proto-declarative手勢——將物品拿近給對方看，目的是分享注意力與興趣，而非要求對方做任何事。展示早於指物出現，約在9–10個月即可觀察到。','❌ 指物（pointing）雖也是proto-declarative的重要手勢，但其發展稍晚於展示，通常在10–12個月出現。'], keypoint:'Proto-declarative（原形陳述）：sharing目的，最早為showing（9–10m），之後為pointing（10–12m）；proto-imperative（原形祈使）：requesting目的。展示早於指物出現。⭐⭐' },
+      { id:20, year:'110', topic:'語言發展里程碑', q:'對於20個月大前幼兒使用的慣用語（formula），下列敘述何者錯誤？', opts:['完整到零散（whole-to-parts）的策略','模仿習得的（imitation）','具溝通意圖（purpose）','是可切割的（segmentation）'], ans:3, expls:['✅ 慣用語是幼兒以whole-to-parts的方式習得語言——先整體記憶，之後才逐漸分析其中的詞彙成分。','✅ 慣用語主要透過模仿（imitation）習得，幼兒整體記憶成人頻繁使用的固定語句。','✅ 雖然慣用語是整體記憶的固定語句，但幼兒使用時具有溝通意圖。','❌（本題答案）慣用語的核心特徵正是不可切割性（non-segmentation）——幼兒將整個語句視為不可分割的單位，個別詞彙不會被獨立分析或使用。「是可切割的」直接與慣用語的定義相反。'], keypoint:'慣用語（formula）四大特徵：①whole-to-parts策略 ②模仿習得 ③具溝通意圖 ④不可切割（non-segmentation）。與item-based construction對比：formula不分析詞序，item-based才是從具體項目建立詞序規則。⭐' },
+      { id:21, year:'110', topic:'語言發展里程碑', q:'根據雙語學習關鍵時期（critical period）的相關研究，學習第二語言時，下列哪一個語言要素的發展與年齡呈負相關？', opts:['構詞','語法','語用','音韻'], ans:3, expls:['❌ 構詞（morphology）的第二語言習得雖受年齡影響，但對年齡的敏感度相對低於音韻，成人仍可有效習得新語言的構詞規則。','❌ 語法（syntax）的學習有敏感期，但研究顯示與年齡的負相關程度不如音韻強烈，且成人在明確教學下仍可達到相當程度的語法能力。','❌ 語用（pragmatics）能力的發展受社會文化經驗影響較大，對生理年齡的依賴程度最低，年長者可透過後天學習有效習得語用規則。','✅ 音韻（phonology）的習得對生理年齡最為敏感，與年齡呈最強的負相關——年齡越大，習得第二語言語音達到母語者水準的可能性越低。語音習得的關鍵期約在12歲前。（Lenneberg 1967；Paul & Norbury）'], keypoint:'第二語言各要素習得對年齡的敏感度由高到低：音韻>語法>構詞>語用。音韻是最受關鍵期影響的語言要素。⭐⭐' },
+      { id:22, year:'111', topic:'語言發展里程碑', q:'就語言發展常模來看，兒童一般要有多少個表達性詞彙之後，才會出現雙詞結合？', opts:['25個','50個','75個','100個'], ans:1, expls:['❌ 25個詞彙量尚不足以觸發詞彙爆炸期與雙詞組合，此時仍在單詞期早期積累階段。','✅ 表達性詞彙達約50個時，詞彙爆炸期（vocabulary spurt）啟動，雙詞組合隨之出現，此為跨語言一致的發展現象。','❌ 75個詞彙時，兒童早應已進入雙詞期，甚至開始出現多詞句，並非雙詞結合剛出現的時間點。','❌ 100個詞彙為常見干擾選項，與第01題（D）的錯誤選項相同，切勿混淆。'], keypoint:'與第01題、第02題三題連動：雙詞結合觸發＝50個表達性詞彙。三題命題方式不同但核心相同。⭐⭐⭐' },
+      { id:23, year:'111', topic:'語言發展里程碑', q:'有關幼兒的單語詞期（single-word）口語表達，下列敘述何者錯誤？', opts:['可表達不同的溝通功能','語詞可當成句子表意','語意依附於幼兒生活經驗','表達的意圖有別於成人的全句詞（holophrases）'], ans:3, expls:['✅ 單語詞期（12–18個月）幼兒雖只能說出單一詞彙，但已能透過語調、手勢與情境表達多種不同的溝通功能，如要求、命名、拒絕、招呼等。','✅ 單語詞期的詞彙常作為全句詞（holophrases）使用——一個詞彙代表整個命題或句子的意思。','✅ 單語詞期的語意高度依附於幼兒的直接生活經驗與當下情境，尚未發展出抽象、去情境化的語意。','❌（本題答案）幼兒單語詞期的全句詞與成人的全句詞本質相同，都是以單一詞彙表達整個命題的意圖。並非「有別於」，而是就是全句詞的表現，溝通意圖方向一致，差異僅在語言形式的複雜度。'], keypoint:'全句詞（holophrases）：單詞期幼兒用一個詞表達一個完整命題，溝通意圖與成人一致（而非有別於）。⭐' },
+      { id:24, year:'111', topic:'語言發展里程碑', q:'新生兒的生理反射動作中，下列何者與言語發展最有關聯？', opts:['尋乳反射（rooting reflex）','階段性咬合（phasic bite）','吸吮—吞嚥（sucking-swallowing）','驚嚇反射（moro reflex）'], ans:2, expls:['❌ 尋乳反射（rooting reflex）主要功能為協助尋找奶頭，與後續言語的口腔動作發展關聯性較低。','❌ 階段性咬合（phasic bite）涉及下顎運動，但與言語發展的直接關聯性不如吸吮—吞嚥顯著。','✅ 吸吮—吞嚥（sucking-swallowing）反射涉及嘴唇、舌頭、下顎、腭部等口腔構音器官的協調運動，是這些構音器官最早的功能性運動訓練，直接奠定後續言語產出所需的口腔動作能力基礎。','❌ 驚嚇反射（moro reflex）是全身性的驚嚇反應，與口腔動作及言語發展的直接關聯性最低。'], keypoint:'涉及口腔構音器官協調運動的反射＝與言語發展關聯最高。吸吮—吞嚥反射是嘴唇、舌、下顎、腭、咽喉的早期協調訓練，直接奠定後續構音能力基礎。⭐' },
+      { id:25, year:'111', topic:'語言發展里程碑', q:'依據Applebee（1978）提到的故事發展階段，若兒童的故事敘事中沒有出現任何結構元素，其故事發展屬於下列哪一個層次？', opts:['堆疊（heaps）','序列故事（sequences）','原始敘事（primitive narratives）','連鎖事件（chains）'], ans:0, expls:['✅ Heaps（堆積期）是Applebee敘事發展的最初階段（約2歲），特徵為各句話題完全無關聯，無任何中心主題或故事結構元素，僅是對當下感知或聯想的隨機堆疊。','❌ Sequences（序列期，2–3歲）已有中心主題或主角貫穿，具有最低程度的組織，並非「無任何結構元素」。','❌ Primitive narratives（3–4歲）已具備引發事件、嘗試或行動、結果等三個基本故事結構要素。','❌ Chains（連鎖事件）已有邏輯連結的系列事件，具備故事結構要素。'], keypoint:'「無任何結構元素」＝Heaps（堆積期）。與第17題（順序排列）互補——一題考順序，一題考階段特徵辨識，合讀可完整掌握Applebee六階段。⭐⭐⭐' },
+      { id:26, year:'112', topic:'語言發展里程碑', q:'關於嬰幼兒語言準備期的發展順序，下列何者正確？①子音—母音單音節重複（reduplicated babbling）②變化性的喃語（variegated babbling）③咕咕聲（cooing）④亂語（jargon）', opts:['①④③②','③①②④','①③②④','②③④①'], ans:1, expls:['❌ 以reduplicated babbling為首，排在cooing之前，但cooing約在2–3個月出現，早於7–9個月的reduplicated babbling，順序錯誤。','✅ 正確順序：cooing→reduplicated babbling→variegated babbling→jargon，即③→①→②→④。各階段：③cooing（2–3m）→①重複喃語（7–9m）→②變化喃語（10–11m）→④亂語（10–12m）。','❌ 以reduplicated babbling為首，排在cooing之前，順序錯誤。','❌ 以variegated babbling為首，且cooing排在第二位，兩處均錯誤。'], keypoint:'前語言期發聲順序（四項）：「咕→重→變→亂」（cooing→reduplicated→variegated→jargon）。112年考四項，113年考五項（加入vocal play）。⭐⭐⭐' },
+      { id:27, year:'112', topic:'語言發展里程碑', q:'關於嬰兒的語音知覺發展，下列敘述何者錯誤？', opts:['嬰兒能夠覺察人類所使用的語言中，每一個對比音素，但在出生的第一年間，此能力會逐漸下降','嬰兒的社會性微笑（social smile）約在兩個月大時出現，是由於嬰兒會對自己的名字有語音知覺反應','嬰兒對於重音、語調上升及下降的模式很敏感，是嬰兒用來區別音節間界線的重要線索','嬰兒能覺察出詞彙中特定位置出現特定組合音的機率，也會運用這些機率在言語中找出音節間的邊界'], ans:1, expls:['✅ 新生兒具備覺察跨語言所有對比音素的能力（universal phonetic sensitivity），但在第一年間隨著母語「知覺地圖」的形成，對非母語音素的區辨能力下降（母語化歷程）。','❌（本題答案）社會性微笑確實約在2個月時出現，但原因是嬰兒對人臉（特別是眼睛區域）的視覺刺激反應，而非對「自己的名字」的語音知覺反應。嬰兒對自己名字有明確反應通常在5–6個月後才出現。','✅ 嬰兒對語音的韻律特徵（prosodic cues）極為敏感，包括重音、語調上升與下降，這些韻律線索是進行音節斷詞的重要依據。','✅ 嬰兒能運用統計學習（statistical learning）——覺察語流中特定位置特定音節組合的出現機率，利用這些規律辨識音節間的邊界。（Saffran et al., 1996）'], keypoint:'社會性微笑（2個月）的觸發來源是人臉視覺刺激，而非語音知覺（名字反應約5–6個月後）。此為本題陷阱所在。⭐' },
+      { id:28, year:'112', topic:'語言發展里程碑', q:'Chall\'s的閱讀發展共分0期到5期，第2期的自動化期（automaticity）的重心為何？', opts:['讀寫的社會化','字音的連結','流暢性的閱讀','語言理解'], ans:2, expls:['❌ 讀寫的社會化對應第0期（前閱讀期，Prereading），約在幼兒園至一年級前，建立讀寫萌發的概念。','❌ 字音的連結對應第1期（解碼期，Decoding），約在一到二年級，學習字母—語音對應規則（phonics）。','✅ 第2期（自動化期，Automaticity）約在二到三年級，重心為流暢性的閱讀——兒童透過大量閱讀使解碼過程自動化，能流暢讀出文本，閱讀速度與流暢度大幅提升。','❌ 語言理解更強調於第3期（Reading to Learn），約四年級以後，兒童透過閱讀習得新知識。'], keypoint:'⭐⭐⭐ Chall（1983）六階段：0期（前閱讀/社會化）→1期（解碼/字音）→2期（自動化/流暢）→3期（從閱讀中學習，4–8年級）→4期（多元觀點）→5期（建構重建）。112、114年均考。記憶口訣：「社→碼→暢→學→念→建」。' },
+      { id:29, year:'113', topic:'語言發展里程碑', q:'依序排列前語言期（prelinguistic vocal stage）的語音發展順序：①反射性的發聲（reflexive vocalization）②咕咕聲（cooing）③牙牙學語（canonical babbling）④發聲練習（vocal play）⑤亂語（jargon）', opts:['①→②→③→④→⑤','①→②→④→③→⑤','②→①→⑤→③→④','②→①→④→③→⑤'], ans:1, expls:['❌ ③canonical babbling排在④vocal play之前，但vocal play約在4–6個月出現，早於7–9個月的canonical babbling，順序錯誤。','✅ 正確順序：①反射性發聲（0–1m）→②咕咕聲（2–3m）→④發聲練習（vocal play, 4–6m）→③牙牙學語（canonical babbling, 7–9m）→⑤亂語（10–12m）。','❌ 以cooing為首，排在reflexive vocalization之前，且後半段順序亦錯誤。','❌ 同樣以cooing為首，順序錯誤。'], keypoint:'前語言期完整順序（五項）：「反→咕→練→喃→亂」（反射→咕咕→vocal play→canonical babbling→亂語）。⚠️ vocal play（4–6m）在babbling（7–9m）之前是常考易錯點。⭐⭐⭐' },
+      { id:30, year:'113', topic:'語言發展里程碑', q:'依據Campbell等人（2007）研究，若以子音正確率（percent of consonants correct, PCC）作為發音的發展指標，下列敘述何者錯誤？', opts:['PCC是以成人的發音標準作為比較基準','在18個月大時，正常對話中的PCC約為53%','在36個月大時，正常對話中的PCC約為70%','在43個月大時，正常對話中的PCC為90%以上'], ans:2, expls:['✅ PCC（percent of consonants correct）是以成人的發音標準（adult target）為比較基準，計算兒童在連續語料中子音正確產出的比例。','✅ 根據Campbell等人（2007），18個月大時正常對話中PCC約為53%，反映此時期仍有大量音韻歷程，構音錯誤率較高。','❌（本題答案）36個月大時，正常對話中的PCC應為約79%（而非70%）。70%的數值低估了36個月兒童的實際構音正確率。','✅ 43個月大時，正常對話中的PCC達90%以上，顯示此階段大多數子音已能正確產出，音韻系統趨於成熟。'], keypoint:'Campbell等人（2007）PCC常模：18個月約53%；36個月約79%（⚠️非70%）；43個月90%以上。PCC是語音障礙嚴重程度分級的重要依據。⭐' },
+      { id:31, year:'113', topic:'語言發展里程碑', q:'依序排列出下列四組子音習得的順序（Customary production）：①pbmn ②fsrlj ③vz ④tdkg', opts:['①②③④','①④②③','④①②③','①④③②'], ans:1, expls:['❌ ②fsrlj排在④tdkg之前，但tdkg為塞音，習得早於fsrlj的擦音與流音，順序錯誤。','✅ 正確習得順序：①pbmn（雙唇音、鼻音，構音部位靠前最簡單，最早）→④tdkg（齒槽塞音、軟顎塞音，早期習得）→②fsrlj（擦音、流音、滑音，需精細氣流控制，較晚）→③vz（有聲擦音，最難習得，最晚）。','❌ 以tdkg為首，排在pbmn之前，不符合雙唇音先於齒槽音的習得規律。','❌ ③vz排在②fsrlj之前，但vz習得晚於fsrlj，順序錯誤。'], keypoint:'英語子音習得順序（Customary production）：pbmn→tdkg→fsrlj→vz。與許洪坤（1987）華語聲母順序（塞音→塞擦音→擦音→捲舌音）均體現「構音方式由簡到繁」的跨語言規律。⭐⭐' },
+      { id:32, year:'113', topic:'語言發展里程碑', q:'根據程小危（1987）與許洪坤（1987）對華語幼兒疑問句發展的研究，下列哪一種是臺灣兒童較晚發展出的問句類型？', opts:['疑問詞問句','句尾語調改變','「什麼」問句','選擇式問句'], ans:3, expls:['❌ 疑問詞問句（wh-問句）不是最晚習得的問句類型，「什麼」問句是最早習得的疑問詞問句之一。','❌ 句尾語調改變是最早發展的問句類型，幼兒透過語調上揚即可形成疑問，認知與語法負荷最低，習得最早。','❌ 「什麼」問句是疑問詞問句中最早習得的類型，指涉具體物品，認知難度低，幼兒在單詞期末即開始出現。','✅ 選擇式問句（如「你要蘋果還是香蕉？」）需要兒童同時理解兩個並列選項的語義關係，認知與語法複雜度較高，根據程小危（1987）與許洪坤（1987），為台灣華語兒童較晚發展出的問句類型。'], keypoint:'華語疑問句習得順序（程小危1987；許洪坤1987）：句尾語調改變（最早）→什麼問句→疑問詞問句→選擇式問句（最晚）。注意與第05題（英語疑問詞James 1990）區分：本題考華語疑問句類型。⭐⭐' },
+      { id:33, year:'114', topic:'語言發展里程碑', q:'關於Chall（1983）閱讀發展的六個階段的敘述，下列何者正確？', opts:['第0階段是前閱讀階段，年級程度是一年級到二年級','第5階段是閱讀以獲取思想階段，主要達成目標是流暢閱讀','第1階段是解碼階段，要達成的目標是理解更複雜的內容，增加閱讀速度','第3階段是從四年級到八年級，重點在透過閱讀來學習'], ans:3, expls:['❌ 第0期（前閱讀期）的年級程度是幼兒園至一年級前（約6歲前），而非一年級到二年級。一年級到二年級對應第1期（解碼期）。','❌ 第5期（建構與重建期）的主要目標是整合、批判、建構知識，適用於大學以上程度，而非流暢閱讀（流暢閱讀是第2期的重心）。','❌ 第1期（解碼期）的目標是學習字母—語音對應規則（phonics），建立解碼能力，而非理解複雜內容或增加閱讀速度（那是第2期或第3期的目標）。','✅ 第3期（從閱讀中學習期，Reading to Learn）的年級程度約為四年級到八年級，重點在透過閱讀來學習新知識，兒童從「學習閱讀」轉為「用閱讀來學習」。'], keypoint:'⭐⭐⭐ Chall各期精確記憶：0期（幼兒園前/社會化）；1期（1–2年級/解碼）；2期（2–3年級/流暢）；3期（4–8年級/從閱讀學習）；4期（高中/多元觀點）；5期（大學+/建構重建）。114年考各期正確描述，命題精細化。' },
+      { id:34, year:'114', topic:'語言發展里程碑', q:'正常發展華語嬰兒在剛開始牙牙學語期（canonical babbling stage）時，最不容易發出下列哪個音節組合？', opts:['/papa/','/tata/','/apap/','/kakak/'], ans:2, expls:['❌ /papa/為雙唇塞音（p）搭配低母音（a）的CVCV重複結構，雙唇音是最早習得的聲母，構音簡單，為canonical babbling期最典型、最容易發出的音節。','❌ /tata/為齒槽塞音（t）搭配低母音（a）的CVCV重複結構，齒槽塞音亦為早期習得的聲母，發出難度低。','✅ /apap/為VCVC結構（母音起始，子音居末），與canonical babbling期最典型的CV或CVCV結構不同。Canonical babbling期嬰兒最偏好以子音起始（CV）的音節，母音起始的VC或VCVC結構難度較高，因此/apap/是四個選項中最不容易發出的音節組合。','❌ /kakak/為軟腭塞音（k）搭配低母音（a）的CVCV重複結構，雖k的構音部位靠後，但仍為CV開頭的重複結構，比VCVC結構更符合canonical babbling期的音節偏好。'], keypoint:'Canonical babbling偏好CV結構（子音起始），VC或VCVC結構（母音起始）難度較高。此題考「音節結構」而非「聲母難易度」。⭐' },
+      { id:35, year:'114', topic:'語言發展里程碑', q:'根據Applebee敘事階段發展的敘述，下列何者正確？①序列故事（sequence stories）階段包含角色、背景、中心主題、結尾說明問題的解決 ②連結敘事（chain narrative）階段為描述起始事件、嘗試、部分結果或不完整的角色動機 ③序列故事的情節間有時間或因果的關係 ④真正敘事（true narrative）故事具有角色、起始事件、動機、中心主題、情節合乎時間順序的事件序列、嘗試或行動及結果', opts:['①②④','僅③④','僅②④','僅①③'], ans:2, expls:['❌ ①錯誤：序列故事（sequences）有中心主題或主角，但缺乏情節、無時間順序或因果關係，更沒有「結尾說明問題的解決」——那是true narratives才有的特徵。③錯誤：序列故事的情節間沒有時間或因果關係，有時間或因果關係的描述對應的是unfocused chains或focused chains。','❌ ③錯誤：序列故事的情節間沒有時間或因果關係。','✅ ②正確：連結敘事（chain narrative，即focused chains）的描述——包含起始事件、嘗試、部分結果或不完整的角色動機，符合此階段特徵。④正確：True narratives具有角色、起始事件、動機、中心主題、合乎時間順序的事件序列、嘗試或行動及結果，符合完整故事文法描述。','❌ ①錯誤（同B說明），③錯誤（同B說明）。'], keypoint:'Applebee各階段精確鑑別：Sequences有中心主題但無因果順序；Focused chains有起始事件、嘗試、部分結果；True narratives有完整故事文法。114年考查更細緻，需區分各期構成要素。⭐⭐⭐' },
+      { id:36, year:'114', topic:'語言發展里程碑', q:'語言治療師觀察到孩子喜歡的遊戲方式，是把所有的玩具車都放進玩具碗，倒出來，再放進去。根據Carpenter（1987）提出的遊戲技巧，最早在幼兒幾個月大時，能觀察到超過90%的幼兒會使用這樣的遊戲方式？', opts:['12個月','15個月','18個月','21個月'], ans:1, expls:['❌ 12個月時，約90%幼兒可達到的Carpenter遊戲技巧為放入容器（putting in container），即將物品放入容器中的簡單動作，而非反覆的套疊行為。','✅ 根據Carpenter（1987），反覆將物品放入容器、倒出、再放入的套疊行為（nesting / relational play），最早在15個月大時可觀察到超過90%的幼兒使用此遊戲方式。','❌ 18個月對應的是更高層次的遊戲技巧，如半適當性玩具使用（semiappropriate toy use）或假裝遊戲萌發，而非套疊行為首次達到90%。','❌ 21個月幼兒的遊戲發展更為複雜，套疊行為應早於此時即普遍出現。'], keypoint:'Carpenter（1987）遊戲量表：12個月→放入容器（putting in）；15個月→套疊行為（nesting / relational play，90%通過）；19個月→半適當性玩具使用；24個月→多重遊戲事件。⭐' }
+    ]
+  },
+  { id:4, name:'構音與語暢障礙學', short:'構音與語暢', color:'c5', topics:['全部題目'], questions:[] },
+  { id:5, name:'溝通障礙總論', short:'溝通障礙總論', color:'c6', topics:['全部題目'], questions:[] }
+];
+
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+let S = {
+  subjectId: 3,
+  topic: '全部題目',
+  mode: 'basic',
+  questions: [],
+  current: 0,
+  answers: [],
+  stats: { done: 0, correct: 0, best: null }
+};
+
+function loadStats() {
+  try { const d = JSON.parse(localStorage.getItem('slp_stats')||'{}'); S.stats = { done: d.done||0, correct: d.correct||0, best: d.best||null }; } catch(e) {}
+  document.getElementById('statDone').textContent = S.stats.done;
+  document.getElementById('statCorrect').textContent = S.stats.correct;
+  document.getElementById('statBest').textContent = S.stats.best !== null ? S.stats.best + '%' : '—';
+}
+function saveStats() {
+  try { localStorage.setItem('slp_stats', JSON.stringify(S.stats)); } catch(e) {}
+}
+
+/* ══════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════ */
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function goHome() { show('home'); loadStats(); }
+function goModeSelect() { show('modeSelect'); }
+
+function openSubject(id) {
+  const subj = SUBJECTS[id];
+  S.subjectId = id;
+  S.topic = '全部題目';
+  document.getElementById('modeSubjectTitle').textContent = `科目${['一','二','三','四','五','六'][id]}`;
+  const pill = document.getElementById('modeSubjectPill');
+  pill.textContent = subj.short;
+  const colors = ['c1','c2','c3','c4','c5','c6'];
+  const c = colors[id];
+  pill.style.background = `var(--${c}l)`;
+  pill.style.color = `var(--${c}d)`;
+
+  // render topic chips
+  const chips = document.getElementById('topicChips');
+  chips.innerHTML = subj.topics.map(t => `
+    <div class="topic-chip ${t==='全部題目'?'active':''}" onclick="selectTopic(this,'${t}')">${t}</div>
+  `).join('');
+
+  if (subj.questions.length === 0) {
+    document.querySelectorAll('.mode-card').forEach(c => {
+      c.style.opacity = '0.4';
+      c.style.pointerEvents = 'none';
+    });
+    chips.innerHTML += '<div style="font-size:12px;color:var(--muted);margin-top:8px;">⚠️ 此科目題庫尚未載入，敬請期待</div>';
+  } else {
+    document.querySelectorAll('.mode-card').forEach(c => {
+      c.style.opacity = '1';
+      c.style.pointerEvents = 'auto';
+    });
+  }
+  show('modeSelect');
+}
+
+function selectTopic(el, topic) {
+  document.querySelectorAll('.topic-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  S.topic = topic;
+}
+
+function startQuiz(mode) {
+  const subj = SUBJECTS[S.subjectId];
+  if (subj.questions.length === 0) return;
+  S.mode = mode;
+  let qs = [...subj.questions];
+  if (S.topic !== '全部題目') qs = qs.filter(q => q.topic === S.topic);
+  if (qs.length === 0) { alert('此主題尚無題目'); return; }
+  S.questions = qs.sort(() => Math.random() - 0.5);
+  S.current = 0;
+  S.answers = [];
+  const modeLabels = { basic:'基礎模式', advanced:'進階模式 · AI核對', drill:'刷題模式' };
+  document.getElementById('quizModeLabel').textContent = modeLabels[mode];
+  show('quiz');
+  renderQ();
+}
+
+/* ══════════════════════════════════════
+   QUIZ RENDER
+══════════════════════════════════════ */
+function renderQ() {
+  const q = S.questions[S.current];
+  const total = S.questions.length;
+  document.getElementById('quizCounter').textContent = `${S.current+1} / ${total}`;
+  document.getElementById('progressFill').style.width = `${(S.current/total)*100}%`;
+
+  document.getElementById('quizBody').innerHTML = `
+    <div class="q-card">
+      <div class="q-meta-row">
+        <span class="q-tag year">${q.year} 年</span>
+        <span class="q-tag topic">${q.topic}</span>
+      </div>
+      <div class="q-text">${q.q}</div>
+    </div>
+    <div class="options-list" id="opts">
+      ${q.opts.map((o,i) => `
+        <button class="option-btn" id="opt${i}" onclick="pick(${i})">
+          <span class="option-letter">${'ABCD'[i]}</span>
+          <span>${o}</span>
+        </button>
+      `).join('')}
+    </div>
+    <div id="answerArea"></div>
+  `;
+}
+
+function pick(sel) {
+  if (S.mode === 'drill') { drillPick(sel); return; }
+  const q = S.questions[S.current];
+  const ok = sel === q.ans;
+  S.answers.push({ q, selected: sel, correct: ok });
+
+  // disable & style buttons
+  q.opts.forEach((_,i) => {
+    const b = document.getElementById('opt'+i);
+    b.disabled = true;
+    if (i === q.ans) b.classList.add('correct');
+    else if (i === sel && !ok) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+
+  if (S.mode === 'advanced') {
+    advancedPicked(q, sel, ok);
+    return;
+  }
+
+  // ── basic mode ──
+  const area = document.getElementById('answerArea');
+  area.innerHTML = `
+    <div class="answer-page">
+      <div class="answer-badge ${ok?'correct-badge':'wrong-badge'}">
+        <span class="answer-badge-icon">${ok?'✅':'❌'}</span>
+        正確答案為（${'ABCD'[q.ans]}）${ok ? '　答對了！' : '　再想想'}
+      </div>
+      <div class="expl-card">
+        <div class="expl-card-header">各選項解析</div>
+        <div class="expl-list">
+          ${q.expls.map((e,i) => `
+            <div class="expl-row">
+              <div class="expl-letter ${i===q.ans?'ok':'no'}">${'ABCD'[i]}</div>
+              <div class="expl-text">${e}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <div class="keypoint-card">
+        <div class="kp-icon">💡</div>
+        <div class="kp-body">
+          <div class="kp-title">核心考點</div>
+          <div class="kp-text">${q.keypoint}</div>
+        </div>
+      </div>
+      <div id="noteCardContainer"></div>
+      <div class="next-btn-row">
+        <button class="next-btn" onclick="nextQ()">
+          ${S.current < S.questions.length-1 ? '下一題' : '查看結果'} →
+        </button>
+      </div>
+    </div>
+  `;
+  area.scrollIntoView({ behavior:'smooth', block:'start' });
+  renderNoteCard(q, 'noteCardContainer');
+}
+
+/* ══════════════════════════════════════
+   ADVANCED MODE
+══════════════════════════════════════ */
+function advancedPicked(q, sel, ok) {
+  const area = document.getElementById('answerArea');
+
+  // decide which slots to show: wrong selection + correct answer
+  // if answered correctly, only show correct answer slot
+  const slots = [];
+  if (!ok) {
+    slots.push({ idx: sel, type: 'wrong',   prompt: `為什麼（${'ABCD'[sel]}）這個選項是錯誤的？` });
+  }
+  slots.push({ idx: q.ans, type: 'correct', prompt: `為什麼（${'ABCD'[q.ans]}）是正確答案？說明其核心機制或理由。` });
+
+  area.innerHTML = `
+    <div class="answer-page">
+      <div class="answer-badge ${ok?'correct-badge':'wrong-badge'}">
+        <span class="answer-badge-icon">${ok?'✅':'❌'}</span>
+        正確答案為（${'ABCD'[q.ans]}）${ok ? '　答對了！現在說明為什麼。' : '　現在說明你的理解。'}
+      </div>
+      <div class="adv-fill-section">
+        <div class="adv-fill-header">
+          <div class="adv-fill-icon">✍️</div>
+          <div>
+            <div class="adv-fill-title">說明你的理解</div>
+            <div class="adv-fill-subtitle">填完後由 AI 對照標準解析給予回饋・${slots.length === 1 ? '共 1 格' : '共 2 格'}</div>
+          </div>
+        </div>
+        ${slots.map((s, si) => `
+          <div class="adv-fill-card">
+            <div class="adv-fill-card-head">
+              <span class="adv-fill-badge ${s.type === 'wrong' ? 'wrong-lbl' : 'correct-lbl'}">
+                ${'ABCD'[s.idx]} ${s.type === 'wrong' ? '錯誤' : '正確'}
+              </span>
+              <div class="adv-fill-head-text">${q.opts[s.idx]}</div>
+            </div>
+            <div class="adv-fill-prompt-row">${s.prompt}</div>
+            <textarea class="adv-fill-textarea" id="advText${si}" placeholder="用自己的話寫，不需要很完整，關鍵詞到了就好…"></textarea>
+          </div>
+        `).join('')}
+        <div class="adv-submit-row">
+          <button class="adv-submit-btn" id="advSubmitBtn" onclick="submitAdvanced(${JSON.stringify(slots).replace(/"/g,'&quot;')})">
+            送出給 AI 核對 →
+          </button>
+        </div>
+      </div>
+      <div id="advFeedbackArea"></div>
+    </div>
+  `;
+  area.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+async function submitAdvanced(slots) {
+  const btn = document.getElementById('advSubmitBtn');
+  btn.disabled = true;
+  btn.textContent = '送出中…';
+
+  const q = S.questions[S.current];
+  const userInputs = slots.map((s, si) => ({
+    ...s,
+    userText: (document.getElementById('advText'+si)?.value || '').trim()
+  }));
+
+  // show loading
+  document.getElementById('advFeedbackArea').innerHTML = `
+    <div class="adv-loading">
+      <div class="adv-spinner"></div>
+      AI 正在核對你的答案…
+    </div>
+  `;
+
+  // build prompt for Claude
+  const systemPrompt = `你是一位語言治療學系的助教，專門協助學生準備語言治療師國家考試。
+你的任務是核對學生對選擇題選項的說明是否掌握了核心概念。
+請用繁體中文回覆，語氣親切但精確。
+請嚴格只回傳 JSON 格式，不要有任何其他文字。`;
+
+  const userPrompt = `以下是一道國考選擇題的資訊與學生的作答說明，請核對每個填空並提供回饋。
+
+【題目】${q.q}
+
+${userInputs.map(s => `
+【學生填空】選項（${'ABCD'[s.idx]}）${s.type === 'wrong' ? '為何錯誤' : '為何正確'}
+學生寫的：「${s.userText || '（未填寫）'}」
+標準解析：「${q.expls[s.idx]}」
+`).join('\n')}
+
+核心考點：${q.keypoint}
+
+請回傳以下 JSON 格式：
+{
+  "feedbacks": [
+    {
+      "verdict": "掌握" | "部分掌握" | "需補強",
+      "comment": "一到兩句話說明學生的說明中哪裡說到位、哪個關鍵詞或概念遺漏了"
+    }
+  ]
+}
+feedbacks 陣列長度必須等於填空數量（${userInputs.length} 個）。`;
+
+  let feedbacks = null;
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    });
+    const data = await resp.json();
+    const raw = data.content?.find(c => c.type === 'text')?.text || '';
+    const clean = raw.replace(/```json|```/g, '').trim();
+    feedbacks = JSON.parse(clean).feedbacks;
+  } catch(e) {
+    feedbacks = userInputs.map(() => ({
+      verdict: '—',
+      comment: '無法取得 AI 回饋，請檢查網路連線。'
+    }));
+  }
+
+  // render comparison
+  const verdictIcon = v => v === '掌握' ? '✅' : v === '部分掌握' ? '🟡' : '🔴';
+  const verdictColor = v => v === '掌握' ? 'var(--c3d)' : v === '部分掌握' ? 'var(--c5d)' : 'var(--c2d)';
+
+  document.getElementById('advFeedbackArea').innerHTML = `
+    <div class="adv-feedback-section">
+      <div class="adv-feedback-label">AI 核對結果</div>
+      ${userInputs.map((s, si) => `
+        <div class="adv-compare-card">
+          <div class="adv-compare-head">
+            <span class="adv-fill-badge ${s.type === 'wrong' ? 'wrong-lbl' : 'correct-lbl'}">
+              ${'ABCD'[s.idx]} ${s.type === 'wrong' ? '錯誤選項' : '正確選項'}
+            </span>
+            <span style="font-size:12px;color:var(--muted);flex:1">${q.opts[s.idx]}</span>
+            ${feedbacks[si] ? `<span style="font-size:12px;font-weight:600;color:${verdictColor(feedbacks[si].verdict)}">${feedbacks[si].verdict}</span>` : ''}
+          </div>
+          <div class="adv-compare-body">
+            <div class="adv-compare-col">
+              <div class="adv-col-lbl">你的說明</div>
+              ${s.userText || '<span style="color:var(--muted);font-style:italic">未填寫</span>'}
+            </div>
+            <div class="adv-compare-col">
+              <div class="adv-col-lbl">標準解析</div>
+              ${q.expls[s.idx].replace(/^[✅❌]\s*/,'')}
+            </div>
+          </div>
+          ${feedbacks[si] ? `
+          <div class="adv-verdict">
+            <span class="adv-verdict-icon">${verdictIcon(feedbacks[si].verdict)}</span>
+            <span class="adv-verdict-text">${feedbacks[si].comment}</span>
+          </div>` : ''}
+        </div>
+      `).join('')}
+      <div class="keypoint-card">
+        <div class="kp-icon">💡</div>
+        <div class="kp-body">
+          <div class="kp-title">核心考點</div>
+          <div class="kp-text">${q.keypoint}</div>
+        </div>
+      </div>
+      <div id="advNoteCardContainer"></div>
+      <div class="next-btn-row">
+        <button class="next-btn" onclick="nextQ()">
+          ${S.current < S.questions.length-1 ? '下一題' : '查看結果'} →
+        </button>
+      </div>
+    </div>
+  `;
+  document.getElementById('advFeedbackArea').scrollIntoView({ behavior:'smooth', block:'start' });
+  renderNoteCard(q, 'advNoteCardContainer');
+}
+
+function drillPick(sel) {
+  const q = S.questions[S.current];
+  S.answers.push({ q, selected: sel, correct: sel === q.ans });
+  const b = document.getElementById('opt'+sel);
+  b.style.borderColor = 'var(--c4)';
+  b.style.background = 'var(--c4l)';
+  q.opts.forEach((_,i) => document.getElementById('opt'+i).disabled = true);
+  document.getElementById('answerArea').innerHTML = `
+    <div class="drill-nav">
+      <button class="next-btn" onclick="nextQ()">
+        ${S.current < S.questions.length-1 ? '下一題' : '查看結果'} →
+      </button>
+    </div>
+  `;
+}
+
+function nextQ() {
+  if (S.current < S.questions.length - 1) {
+    S.current++;
+    renderQ();
+    window.scrollTo(0,0);
+  } else {
+    showResults();
+  }
+}
+
+/* ══════════════════════════════════════
+   RESULTS
+══════════════════════════════════════ */
+function showResults() {
+  const correct = S.answers.filter(a => a.correct).length;
+  const total = S.answers.length;
+  const pct = Math.round((correct/total)*100);
+
+  S.stats.done += total;
+  S.stats.correct += correct;
+  if (S.stats.best === null || pct > S.stats.best) S.stats.best = pct;
+  saveStats();
+
+  document.getElementById('scoreNum').textContent = `${correct} / ${total}`;
+  const pctEl = document.getElementById('scorePct');
+  pctEl.textContent = `正確率 ${pct}%`;
+  pctEl.style.background = pct >= 80 ? 'var(--c3l)' : pct >= 60 ? 'var(--c5l)' : 'var(--c2l)';
+  pctEl.style.color = pct >= 80 ? 'var(--c3d)' : pct >= 60 ? 'var(--c5d)' : 'var(--c2d)';
+
+  // topic analysis
+  const map = {};
+  S.answers.forEach(a => {
+    const t = a.q.topic;
+    if (!map[t]) map[t] = {r:0,w:0};
+    a.correct ? map[t].r++ : map[t].w++;
+  });
+  const topics = Object.entries(map).map(([n,v]) => ({
+    n, r:v.r, w:v.w, total:v.r+v.w, pct:Math.round(v.r/(v.r+v.w)*100)
+  })).sort((a,b) => a.pct-b.pct);
+
+  // pie
+  const canvas = document.getElementById('pieChart');
+  const ex = Chart.getChart(canvas); if(ex) ex.destroy();
+  new Chart(canvas, {
+    type: 'doughnut',
+    data: {
+      labels: ['答對', '答錯'],
+      datasets: [{
+        data: [correct, total-correct],
+        backgroundColor: ['rgba(109,191,158,0.75)','rgba(240,133,109,0.6)'],
+        borderColor: ['#6dbf9e','#f0856d'],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      cutout: '65%',
+      plugins: { legend: { labels: { color:'#7a8fac', font:{size:12}, padding:16 } } },
+      animation: { animateScale: true }
+    }
+  });
+
+  // bars
+  document.getElementById('topicBars').innerHTML = topics.map(t => `
+    <div class="bar-item">
+      <div class="bar-label">
+        <span class="name">${t.n}</span>
+        <span class="pct">${t.r}/${t.total} · ${t.pct}%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${t.pct}%;background:${t.pct>=80?'var(--c3)':t.pct>=60?'var(--c5)':'var(--c2)'}"></div>
+      </div>
+    </div>
+  `).join('');
+
+  // review - drill mode shows keypoints and notes
+  const wrong = S.answers.filter(a => !a.correct);
+  const wSection = document.getElementById('wrongSection');
+  if (wrong.length === 0) { wSection.style.display = 'none'; }
+  else {
+    wSection.style.display = 'block';
+    document.getElementById('reviewList').innerHTML = wrong.map((a, wi) => `
+      <div class="review-item" style="flex-direction:column;align-items:stretch;gap:8px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div class="rdot no" style="margin-top:7px;flex-shrink:0;"></div>
+          <div style="flex:1">
+            <div class="review-q-text">${a.q.q.substring(0,65)}…</div>
+            <div class="review-ans-line">你的答案：${'ABCD'[a.selected]}　正確：${'ABCD'[a.q.ans]}</div>
+          </div>
+        </div>
+        <div style="margin-left:20px;">
+          <div style="font-size:11px;font-weight:600;color:var(--c5d);margin-bottom:3px;">💡 核心考點</div>
+          <div style="font-size:12px;color:#5a4a20;line-height:1.6;">${a.q.keypoint}</div>
+          <div id="reviewNote_${wi}"></div>
+        </div>
+      </div>
+    `).join('');
+    wrong.forEach(async (a, wi) => {
+      const key = 'note_' + SUBJECTS[S.subjectId].id + '_' + a.q.id;
+      let note = ''; try { note = localStorage.getItem(key) || ''; } catch(e) {}
+      if (!note && getToken()) { const n = await loadNoteFromNotion(a.q); if (n) note = n; }
+      const el = document.getElementById('reviewNote_' + wi);
+      if (el && note) { el.innerHTML = '<div class="result-note-label">📝 我的筆記</div><div class="result-note-block">' + note.replace(/\n/g,'<br>') + '</div>'; }
+    });
+  }
+
+  show('results');
+}
+
+function restartSame() { startQuiz(S.mode); }
+
+/* ══════════════════════════════════════
+   NOTION NOTES
+══════════════════════════════════════ */
+const NOTION_PARENT_ID = '30503064-57a3-80db-870c-d2dddebed882';
+const NOTES_DB_KEY = 'slp_notion_db_id';
+const TOKEN_KEY = 'slp_notion_token';
+
+function getToken() { try { return localStorage.getItem(TOKEN_KEY) || ''; } catch(e) { return ''; } }
+function getNotesDbId() { try { return localStorage.getItem(NOTES_DB_KEY) || ''; } catch(e) { return ''; } }
+
+function openSetup() {
+  document.getElementById('setupOverlay').style.display = 'flex';
+  const t = getToken(); if (t) document.getElementById('tokenInput').value = t;
+}
+function closeSetup() { document.getElementById('setupOverlay').style.display = 'none'; }
+
+async function saveToken() {
+  const token = document.getElementById('tokenInput').value.trim();
+  const msg = document.getElementById('setupMsg');
+  if (!token) { msg.textContent = '請輸入 token'; msg.style.color = 'var(--c2d)'; return; }
+  msg.textContent = '連接中…'; msg.style.color = 'var(--muted)';
+  try {
+    localStorage.setItem(TOKEN_KEY, token);
+    const dbId = await ensureNotesDatabase(token);
+    if (dbId) {
+      msg.textContent = '✅ 連接成功！筆記將自動同步到 Notion。';
+      msg.style.color = 'var(--c3d)';
+      setTimeout(closeSetup, 1500);
+    } else {
+      msg.textContent = '❌ 無法連接，請確認 token 正確且已連接到「國考」頁面。';
+      msg.style.color = 'var(--c2d)';
+    }
+  } catch(e) { msg.textContent = '❌ 連接失敗：' + e.message; msg.style.color = 'var(--c2d)'; }
+}
+
+async function notionReq(endpoint, method, body, token) {
+  const t = token || getToken(); if (!t) return null;
+  try {
+    const r = await fetch('https://api.notion.com/v1' + endpoint, {
+      method: method || 'GET',
+      headers: { 'Authorization': 'Bearer ' + t, 'Notion-Version': '2022-06-28', 'Content-Type': 'application/json' },
+      body: body ? JSON.stringify(body) : undefined
+    });
+    return r.ok ? await r.json() : null;
+  } catch(e) { return null; }
+}
+
+async function ensureNotesDatabase(token) {
+  let dbId = getNotesDbId();
+  if (dbId) { const c = await notionReq('/databases/' + dbId, 'GET', null, token); if (c && c.id) return dbId; }
+  const data = await notionReq('/databases', 'POST', {
+    parent: { type: 'page_id', page_id: NOTION_PARENT_ID },
+    title: [{ type: 'text', text: { content: '國考複習筆記' } }],
+    properties: {
+      '題目標題': { title: {} }, '科目': { rich_text: {} }, '主題': { rich_text: {} },
+      '年份': { rich_text: {} }, '題號': { number: {} }, '筆記內容': { rich_text: {} }
+    }
+  }, token);
+  if (data && data.id) { try { localStorage.setItem(NOTES_DB_KEY, data.id); } catch(e) {} return data.id; }
+  return null;
+}
+
+function noteLocalKey(q) { return 'note_' + SUBJECTS[S.subjectId].id + '_' + q.id; }
+
+async function loadNoteFromNotion(q) {
+  const dbId = getNotesDbId(); if (!dbId || !getToken()) return null;
+  const subj = SUBJECTS[S.subjectId];
+  const data = await notionReq('/databases/' + dbId + '/query', 'POST', {
+    filter: { and: [{ property: '科目', rich_text: { equals: subj.name } }, { property: '題號', number: { equals: q.id } }] },
+    page_size: 1
+  });
+  if (data && data.results && data.results.length > 0) {
+    const blocks = data.results[0].properties['筆記內容']?.rich_text;
+    if (blocks && blocks.length > 0) return blocks.map(b => b.plain_text).join('');
+  }
+  return null;
+}
+
+async function saveNote(q, text) {
+  const key = noteLocalKey(q);
+  try { localStorage.setItem(key, text); } catch(e) {}
+  const token = getToken(); if (!token) return 'local';
+  let dbId = getNotesDbId(); if (!dbId) { dbId = await ensureNotesDatabase(token); } if (!dbId) return 'local';
+  const subj = SUBJECTS[S.subjectId];
+  const titleText = subj.name + '・' + q.topic + '・第' + String(q.id).padStart(2,'0') + '題（' + q.year + '年）';
+  const existing = await notionReq('/databases/' + dbId + '/query', 'POST', {
+    filter: { and: [{ property: '科目', rich_text: { equals: subj.name } }, { property: '題號', number: { equals: q.id } }] },
+    page_size: 1
+  });
+  if (existing && existing.results && existing.results.length > 0) {
+    const r = await notionReq('/pages/' + existing.results[0].id, 'PATCH', {
+      properties: { '筆記內容': { rich_text: [{ type: 'text', text: { content: text.substring(0,2000) } }] } }
+    });
+    return r ? 'synced' : 'local';
+  } else {
+    const r = await notionReq('/pages', 'POST', {
+      parent: { database_id: dbId },
+      properties: {
+        '題目標題': { title: [{ type: 'text', text: { content: titleText } }] },
+        '科目': { rich_text: [{ type: 'text', text: { content: subj.name } }] },
+        '主題': { rich_text: [{ type: 'text', text: { content: q.topic } }] },
+        '年份': { rich_text: [{ type: 'text', text: { content: q.year } }] },
+        '題號': { number: q.id },
+        '筆記內容': { rich_text: [{ type: 'text', text: { content: text.substring(0,2000) } }] }
+      }
+    });
+    return r ? 'synced' : 'local';
+  }
+}
+
+async function renderNoteCard(q, containerId) {
+  const container = document.getElementById(containerId); if (!container) return;
+  let localNote = ''; try { localNote = localStorage.getItem(noteLocalKey(q)) || ''; } catch(e) {}
+  const hasToken = !!getToken();
+  container.innerHTML = `
+    <div class="note-card">
+      <div class="note-card-header">
+        <div class="note-card-title">📝 我的筆記</div>
+        <span class="note-sync-status" id="noteSyncStatus_${q.id}">
+          ${hasToken ? '• Notion 同步已開啟' : '• 僅存本機 &nbsp;<span style="cursor:pointer;text-decoration:underline;color:var(--c3d)" onclick="openSetup()">設定同步</span>'}
+        </span>
+      </div>
+      <textarea class="note-textarea" id="noteTA_${q.id}"
+        placeholder="補充你查到的資料、記憶口訣、或容易混淆的地方…">${localNote}</textarea>
+      <div class="note-footer">
+        <button class="note-save-btn" id="noteBtn_${q.id}" onclick="handleSaveNote(${q.id})">儲存筆記</button>
+      </div>
+    </div>
+  `;
+  if (hasToken) {
+    const st = document.getElementById('noteSyncStatus_' + q.id);
+    if (st) { st.textContent = '⟳ 讀取中…'; st.className = 'note-sync-status syncing'; }
+    const notionNote = await loadNoteFromNotion(q);
+    const ta = document.getElementById('noteTA_' + q.id);
+    if (notionNote !== null && ta) {
+      if (notionNote !== localNote) { ta.value = notionNote; try { localStorage.setItem(noteLocalKey(q), notionNote); } catch(e) {} }
+      if (st) { st.textContent = '✓ 已同步 Notion'; st.className = 'note-sync-status synced'; }
+    } else {
+      if (st) { st.textContent = '• Notion 同步已開啟'; st.className = 'note-sync-status'; }
+    }
+  }
+}
+
+async function handleSaveNote(qId) {
+  const q = S.questions.find(q => q.id === qId); if (!q) return;
+  const text = document.getElementById('noteTA_' + qId)?.value || '';
+  const btn = document.getElementById('noteBtn_' + qId);
+  const st = document.getElementById('noteSyncStatus_' + qId);
+  if (btn) { btn.disabled = true; btn.textContent = '儲存中…'; }
+  if (st) { st.textContent = '⟳ 同步中…'; st.className = 'note-sync-status syncing'; }
+  const result = await saveNote(q, text);
+  if (btn) { btn.disabled = false; btn.textContent = '儲存筆記'; }
+  if (st) {
+    if (result === 'synced') { st.textContent = '✓ 已同步到 Notion'; st.className = 'note-sync-status synced'; }
+    else { st.textContent = '✓ 已存本機'; st.className = 'note-sync-status'; }
+  }
+}
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+loadStats();
+</script>
+</body>
+</html>
